@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"account_gateway/internal/config"
+	"account_gateway/internal/repository"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,12 +19,12 @@ type Book struct {
 func Execute() {
 	config.InitTimeZone()
 	config.InitConfig()
-	// client := config.InitDatabase()
-	// coll := client.Database("db").Collection("books")
-	// doc := Book{Title: "Atonement", Author: "Ian McEw"}
-	// result, _ := coll.InsertOne(context.TODO(), doc)
-	// fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
+	db := config.InitDatabase()
 
+	userdb := repository.NewUserRepositoryDB(db)
+	userdb.Create(repository.User{
+		UserName: "test",
+	})
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
 		CaseSensitive: true,

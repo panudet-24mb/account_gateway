@@ -8,11 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-type Book struct {
-	Title  string
-	Author string
-}
-
 func InitDatabase() *mongo.Client {
 
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(viper.GetString("db.mongo_host")))
