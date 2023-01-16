@@ -1,13 +1,13 @@
 package repository
 
 type User struct {
-	UserID         uint `gorm:"primary_key"`
+	UserID         uint
 	UserName       string
 	HashPassword   string
 	Email          string
 	EmailConfirm   bool
 	UserStatus     string
-	LoginAttempt   int `gorm:"default:0"`
+	LoginAttempt   int
 	AcceptTerms    bool
 	VerifyIdentity bool
 	LastLogin      string
