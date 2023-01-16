@@ -1,0 +1,21 @@
+app:
+  port: 8000
+  secret : 'thisisrealsecret'
+  
+db:
+  host: "pgsql-server"
+  user: "admin"
+  password: "secret"
+  dbname: "account_service"
+  port: 5432
+  sslmode: disable 
+  timezone: "Asia/Bangkok"
+
+otp:
+  otp_expire_duration : 3
+  aws_access_key : "AKIA4SUAIDAQVFGFTUEO"
+  aws_secret_key : "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"
+  aws_region : "ap-southeast-1"
+  auto_fill : "LkcggE8N2q3"
+
+timezone : 7
