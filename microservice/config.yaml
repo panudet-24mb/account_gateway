@@ -10,6 +10,7 @@ db:
   port: 5432
   sslmode: disable 
   timezone: "Asia/Bangkok"
+  mongo_host: "mongodb://admin:admin_password@gateway_mongo"
 
 otp:
   otp_expire_duration : 3

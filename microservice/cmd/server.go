@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"account_gateway/internal/config"
-	"account_gateway/internal/repository"
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
@@ -11,20 +10,19 @@ import (
 	"github.com/spf13/viper"
 )
 
+type Book struct {
+	Title  string
+	Author string
+}
+
 func Execute() {
 	config.InitTimeZone()
 	config.InitConfig()
-	config.InitDatabase()
-
-	db := config.InitDatabase()
-	db.AutoMigrate(&repository.AccountGroup{}, &repository.Account{}, &repository.Gender{},
-		&repository.NamePrefix{},
-		&repository.Invoice{}, &repository.Subscription{},
-		&repository.PlanFeature{}, &repository.SubscriptionPlan{},
-		&repository.Feature{}, &repository.Plan{}, &repository.Address{}, &repository.PartnerBranch{}, &repository.Partner{},
-		&repository.AddressGroup{}, &repository.AddressType{},
-	)
-	// AccRepo := repository.NewAccountRepositoryDB(db)
+	// client := config.InitDatabase()
+	// coll := client.Database("db").Collection("books")
+	// doc := Book{Title: "Atonement", Author: "Ian McEw"}
+	// result, _ := coll.InsertOne(context.TODO(), doc)
+	// fmt.Printf("Inserted document with _id: %v\n", result.InsertedID)
 
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
