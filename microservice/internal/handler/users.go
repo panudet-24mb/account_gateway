@@ -27,7 +27,7 @@ func (u userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
 		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
-		"data": result,
+		"data": result.UserName,
 	})
 
 }
