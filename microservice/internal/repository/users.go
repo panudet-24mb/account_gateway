@@ -10,7 +10,9 @@ type User struct {
 	AcceptTerms    bool   `bson:"acceptterms"`
 	VerifyIdentity bool   `bson:"verifyidentity"`
 	LastLogin      string `bson:"lastlogin"`
-	RegisterAt     string `bson:"registerat"`
+	CreateAt       string `bson:"createat"`
+	UpdateAt       string `bson:"updateat"`
+	DeleteAt       string `bson:"deleteat"`
 }
 
 type UserRepository interface {
