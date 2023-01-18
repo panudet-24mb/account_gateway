@@ -31,3 +31,23 @@ func (u userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
 	})
 
 }
+
+func (u userHandler) FindAllAccount(c *fiber.Ctx) error {
+	users, err := u.userService.FindAllAccount()
+	if err != nil {
+		return err
+	}
+	return c.Status(http.StatusOK).JSON(&fiber.Map{
+		"users": users,
+	})
+}
+
+// func (u userHandler) FindAccount(c *fiber.Ctx) error {
+// 	user, err := u.userService.FindAccount()
+// 	if err != nil {
+// 		return err
+// 	}
+// 	return c.Status(http.StatusOK).JSON(&fiber.Map{
+// 		"user": user,
+// 	})
+// }

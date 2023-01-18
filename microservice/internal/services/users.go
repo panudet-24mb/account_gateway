@@ -66,3 +66,32 @@ func (u userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountRe
 
 	return userResponse, nil
 }
+
+func (u userService) FindAllAccount() ([]FindAccountReponse, error) {
+	users, err := u.userRepository.GetAll()
+	if err != nil {
+		return nil, err
+	}
+	userResponses := []FindAccountReponse{}
+	for _, user := range users {
+		userResponse := FindAccountReponse{
+			UserName: user.UserName,
+			Email:    user.Email,
+		}
+		userResponses = append(userResponses, userResponse)
+	}
+	return userResponses, nil
+}
+
+func (u userService) FindAccount(id string) (*FindAccountReponse, error) {
+	user, err := u.userRepository.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+	userResponse := FindAccountReponse{
+		UserName: user.UserName,
+		Email:    user.Email,
+	}
+	return &userResponse, nil
+
+}

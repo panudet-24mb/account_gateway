@@ -37,6 +37,8 @@ func Execute() {
 	api := app.Group("/api")
 	user := api.Group("/user")
 	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
+	user.Get("/find-account", userHandler.FindAllAccount)
+	// user.Get("/find-account/:id", userHandler.FindAccount)
 
 	usergroup := api.Group("/user-group")
 	usergroup.Post("/create-new-user-group", userGroupHandler.CreateNewGroup)

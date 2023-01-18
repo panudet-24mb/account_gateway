@@ -18,6 +18,13 @@ type NewUserAccountResponse struct {
 	DeleteAt     string `json:"deleteat"`
 }
 
+type FindAccountReponse struct {
+	UserName string `json:"username"`
+	Email    string `json:"email"`
+}
+
 type UserService interface {
 	NewUserAccount(newUserAccountRequest *NewUserAccountRequest) (*NewUserAccountResponse, error)
+	FindAllAccount() ([]FindAccountReponse, error)
+	FindAccount(string) (*FindAccountReponse, error)
 }

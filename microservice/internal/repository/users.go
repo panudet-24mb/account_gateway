@@ -16,8 +16,8 @@ type User struct {
 }
 
 type UserRepository interface {
-	// GetAll() ([]User, error)
-	// GetById(int) (*User, error)
+	GetAll() ([]User, error)
+	GetById(string) (*User, error)
 	Create(User) (*User, error)
 	// Update(User) (*User, error)
 	// UpdateOne(User) (*User, error)
