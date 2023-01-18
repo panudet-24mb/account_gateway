@@ -1,6 +1,6 @@
 package services
 
-type NewUserGroupRequest struct {
+type NewGroupRequest struct {
 	GroupName      string `json:"groupname"`
 	GroupDesc      string `json:"groupdesc"`
 	GroupImgUrl    string `json:"groupimgurl"`
@@ -9,7 +9,7 @@ type NewUserGroupRequest struct {
 	GroupType      string `json:"grouptype"`
 }
 
-type NewUserGroupResponse struct {
+type NewGroupResponse struct {
 	GroupName      string `json:"groupname"`
 	GroupCode      string `json:"groupcode"`
 	GroupDesc      string `json:"groupdesc"`
@@ -23,5 +23,5 @@ type NewUserGroupResponse struct {
 }
 
 type UserGroupService interface {
-	NewUserGroup(newUserGroupRequest *NewUserGroupRequest) (*NewUserGroupResponse, error)
+	NewGroup(newUserGroupRequest *NewGroupRequest) (*NewGroupResponse, error)
 }

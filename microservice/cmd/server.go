@@ -39,7 +39,7 @@ func Execute() {
 	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
 
 	usergroup := api.Group("/user-group")
-	usergroup.Post("/create-new-user-group", userGroupHandler.CreateNewUserGroup)
+	usergroup.Post("/create-new-user-group", userGroupHandler.CreateNewGroup)
 
 	port := viper.GetString("app.port")
 	app.Listen(":" + port)
