@@ -14,9 +14,9 @@ func NewUserGroupRepositoryDB(db *mongo.Client) UserGroupRepository {
 	return UserGroupRepositoryDB{db: db}
 }
 
-func (r UserGroupRepositoryDB) Create(u UserGroup) (*UserGroup, error) {
+func (r UserGroupRepositoryDB) Create(u Group) (*Group, error) {
 	collection := r.db.Database("account").Collection("users_group")
-	doc := UserGroup{
+	doc := Group{
 		GroupName:   u.GroupName,
 		GroupCode:   u.GroupCode,
 		GroupDesc:   u.GroupDesc,

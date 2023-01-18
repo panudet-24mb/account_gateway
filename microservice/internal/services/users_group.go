@@ -10,26 +10,26 @@ func NewUserGroupService(userGroupRepository repository.UserGroupRepository) Use
 	return userGroupService{userGroupRepository: userGroupRepository}
 }
 
-func (u userGroupService) NewUserGroup(newUserGroupRequest *NewUserGroupRequest) (*NewUserGroupResponse, error) {
-	userGroup := repository.UserGroup{
-		GroupName:      newUserGroupRequest.GroupName,
-		GroupDesc:      newUserGroupRequest.GroupDesc,
-		GroupImgUrl:    newUserGroupRequest.GroupImgUrl,
-		GroupIcon:      newUserGroupRequest.GroupIcon,
-		GroupIconColor: newUserGroupRequest.GroupIconColor,
-		GroupType:      newUserGroupRequest.GroupType,
+func (u userGroupService) NewGroup(newGroupRequest *NewGroupRequest) (*NewGroupResponse, error) {
+	userGroup := repository.Group{
+		GroupName:      newGroupRequest.GroupName,
+		GroupDesc:      newGroupRequest.GroupDesc,
+		GroupImgUrl:    newGroupRequest.GroupImgUrl,
+		GroupIcon:      newGroupRequest.GroupIcon,
+		GroupIconColor: newGroupRequest.GroupIconColor,
+		GroupType:      newGroupRequest.GroupType,
 	}
 	_, err := u.userGroupRepository.Create(userGroup)
 	if err != nil {
 		return nil, err
 	}
 
-	return &NewUserGroupResponse{
-		GroupName:      newUserGroupRequest.GroupName,
-		GroupDesc:      newUserGroupRequest.GroupDesc,
-		GroupImgUrl:    newUserGroupRequest.GroupImgUrl,
-		GroupIcon:      newUserGroupRequest.GroupIcon,
-		GroupIconColor: newUserGroupRequest.GroupIconColor,
-		GroupType:      newUserGroupRequest.GroupType,
+	return &NewGroupResponse{
+		GroupName:      newGroupRequest.GroupName,
+		GroupDesc:      newGroupRequest.GroupDesc,
+		GroupImgUrl:    newGroupRequest.GroupImgUrl,
+		GroupIcon:      newGroupRequest.GroupIcon,
+		GroupIconColor: newGroupRequest.GroupIconColor,
+		GroupType:      newGroupRequest.GroupType,
 	}, nil
 }

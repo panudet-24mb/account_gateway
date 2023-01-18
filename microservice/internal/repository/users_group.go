@@ -1,6 +1,6 @@
 package repository
 
-type UserGroup struct {
+type Group struct {
 	GroupName      string `bson:"groupname"`
 	GroupCode      string `bson:"groupcode"`
 	GroupDesc      string `bson:"groupdesc"`
@@ -16,5 +16,5 @@ type UserGroup struct {
 }
 
 type UserGroupRepository interface {
-	Create(UserGroup UserGroup) (*UserGroup, error)
+	Create(Group Group) (*Group, error)
 }

@@ -15,13 +15,13 @@ func NewUserGroupHandler(userGroupService services.UserGroupService) userGroupHa
 	return userGroupHandler{userGroupService: userGroupService}
 }
 
-func (u userGroupHandler) CreateNewUserGroup(c *fiber.Ctx) error {
+func (u userGroupHandler) CreateNewGroup(c *fiber.Ctx) error {
 	c.Accepts("application/json")
-	body := new(services.NewUserGroupRequest)
+	body := new(services.NewGroupRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
-	result, err := u.userGroupService.NewUserGroup(body)
+	result, err := u.userGroupService.NewGroup(body)
 	if err != nil {
 		return handleError(c, err)
 	}
