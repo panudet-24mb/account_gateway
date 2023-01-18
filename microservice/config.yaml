@@ -3,20 +3,4 @@ app:
   secret : 'thisisrealsecret'
   
 db:
-  host: "pgsql-server"
-  user: "admin"
-  password: "secret"
-  dbname: "account_service"
-  port: 5432
-  sslmode: disable 
-  timezone: "Asia/Bangkok"
-  mongo_host: "mongodb://admin:admin_password@gateway_mongo"
-
-otp:
-  otp_expire_duration : 3
-  aws_access_key : "AKIA4SUAIDAQVFGFTUEO"
-  aws_secret_key : "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"
-  aws_region : "ap-southeast-1"
-  auto_fill : "LkcggE8N2q3"
-
-timezone : 7
+  mongo_host: "mongodb://admin:admin_password@user_service_mongo"

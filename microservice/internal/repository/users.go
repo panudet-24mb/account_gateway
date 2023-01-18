@@ -10,7 +10,6 @@ type User struct {
 	AcceptTerms    bool   `bson:"acceptterms"`
 	VerifyIdentity bool   `bson:"verifyidentity"`
 	LastLogin      string `bson:"lastlogin"`
-	IpAddress      string `bson:"ipaddress"`
 	RegisterAt     string `bson:"registerat"`
 }
 

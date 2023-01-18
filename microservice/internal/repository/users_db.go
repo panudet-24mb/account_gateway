@@ -15,27 +15,16 @@ func NewUserRepositoryDB(db *mongo.Client) UserRepository {
 }
 
 func (r UserRepositoryDB) Create(u User) (*User, error) {
-	collection := r.db.Database("db").Collection("books")
+	collection := r.db.Database("account").Collection("users")
 	doc := User{
-		UserName:       u.UserName,
-		HashPassword:   u.HashPassword,
-		Email:          u.Email,
-		EmailConfirm:   u.EmailConfirm,
-		UserStatus:     u.UserStatus,
-		LoginAttempt:   u.LoginAttempt,
-		AcceptTerms:    u.AcceptTerms,
-		VerifyIdentity: u.VerifyIdentity,
-		LastLogin:      u.LastLogin,
-		IpAddress:      u.IpAddress,
-		RegisterAt:     u.RegisterAt,
+		UserName: u.UserName,
 	}
 	_, err := collection.InsertOne(context.TODO(), doc)
 	if err != nil {
 		return nil, err
 	}
+	defer r.db.Disconnect(context.Background())
 
-	defer r.db.Disconnect(context.TODO())
-
-	return &u, err
+	return &doc, nil
 
 }
