@@ -20,6 +20,10 @@ func Execute() {
 	userService := services.NewUserService(userRepository)
 	userHandler := handler.NewUserHandler(userService)
 
+	userGroupRepository := repository.NewUserGroupRepositoryDB(db)
+	userGroupService := services.NewUserGroupService(userGroupRepository)
+	userGroupHandler := handler.NewUserGroupHandler(userGroupService)
+
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
 		CaseSensitive: true,
@@ -33,6 +37,9 @@ func Execute() {
 	api := app.Group("/api")
 	user := api.Group("/user")
 	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
+
+	usergroup := api.Group("/user-group")
+	usergroup.Post("/create-new-user-group", userGroupHandler.CreateNewUserGroup)
 
 	port := viper.GetString("app.port")
 	app.Listen(":" + port)
