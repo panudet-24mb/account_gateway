@@ -24,6 +24,9 @@ func Execute() {
 	userGroupService := services.NewUserGroupService(userGroupRepository)
 	userGroupHandler := handler.NewUserGroupHandler(userGroupService)
 
+	authService := services.NewAuthService(userRepository)
+	authHandler := handler.NewAuthHandler(authService)
+
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
 		CaseSensitive: true,
@@ -36,12 +39,26 @@ func Execute() {
 
 	api := app.Group("/api")
 	user := api.Group("/user")
-	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
-	user.Get("/find-account", userHandler.FindAllAccount)
-	// user.Get("/find-account/:id", userHandler.FindAccount)
-
+	auth := api.Group("/auth")
 	usergroup := api.Group("/user-group")
+
+	auth.Post("/login", authHandler.DefaultLogin)
+
+	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
+	user.Get("/get-account", userHandler.GetAccounts)
+	user.Get("/get-account/:_id", userHandler.GetAccountByID)
+	user.Put("/update-account", userHandler.UpdateAccounts)
+	user.Put("/update-account/:_id", userHandler.UpdateAccount)
+	user.Put("/delete-accout", userHandler.DeleteAccount)
+	user.Get("/find-account", userHandler.FindAccount)
+
 	usergroup.Post("/create-new-user-group", userGroupHandler.CreateNewGroup)
+	usergroup.Get("/get-user-group", userGroupHandler.GetGroups)
+	usergroup.Get("/get-user-group/:_id", userGroupHandler.GetGroupByID)
+	usergroup.Put("/update-user-group", userGroupHandler.UpdateGroups)
+	usergroup.Put("/update-user-group/:_id", userGroupHandler.UpdateGroup)
+	usergroup.Put("/delete-user-group", userGroupHandler.DeleteGroup)
+	usergroup.Get("/find-user-group", userGroupHandler.FindGroup)
 
 	port := viper.GetString("app.port")
 	app.Listen(":" + port)

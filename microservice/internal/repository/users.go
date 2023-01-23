@@ -17,10 +17,10 @@ type User struct {
 
 type UserRepository interface {
 	GetAll() ([]User, error)
-	GetById(string) (*User, error)
+	GetByID(string) (*User, error)
 	Create(User) (*User, error)
-	// Update(User) (*User, error)
-	// UpdateOne(User) (*User, error)
-	// DeleteOne(int) error
-	// FindUser(User) (*User, error)
+	Update(User) (*User, error)
+	UpdateOne(User) (*User, error)
+	DeleteOne(string, User) (*User, error)
+	FindUser(User) (*User, error)
 }

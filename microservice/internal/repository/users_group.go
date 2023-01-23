@@ -17,4 +17,10 @@ type Group struct {
 
 type UserGroupRepository interface {
 	Create(Group Group) (*Group, error)
+	GetAll() ([]Group, error)
+	GetByID(id string) (*Group, error)
+	Update(Group Group) (*Group, error)
+	UpdateOne(id string, Group Group) (*Group, error)
+	DeleteOne(groupName string, Group Group) (*Group, error)
+	FindGroup(g Group) ([]Group, error)
 }
