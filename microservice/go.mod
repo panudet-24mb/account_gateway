@@ -1,4 +1,4 @@
-module account_gateway
+module account_services
 
 go 1.19
 

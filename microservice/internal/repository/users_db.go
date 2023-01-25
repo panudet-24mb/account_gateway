@@ -98,13 +98,16 @@ func (r UserRepositoryDB) Update(u User) (*User, error) {
 
 }
 
-func (r UserRepositoryDB) UpdateOne(u User) (*User, error) {
+func (r UserRepositoryDB) UpdateOne(id string, u User) (*User, error) {
 	collection := r.db.Database("account").Collection("users")
-
-	filter := bson.M{"username": u.UserName}
+	objID, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	filter := bson.M{"_id": objID}
 	update := bson.M{"$set": bson.M{"username": u.UserName, "email": u.Email}}
 	// update := bson.D{{Key: "email", Value: u.Email}, {Key: "updateat", Value: u.UpdateAt}}
-	_, err := collection.UpdateOne(context.TODO(), filter, update)
+	_, err = collection.UpdateOne(context.TODO(), filter, update)
 	if err != nil {
 		log.Fatal(err)
 	}

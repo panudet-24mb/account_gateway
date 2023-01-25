@@ -86,5 +86,5 @@ type UserGroupService interface {
 	UpdateGroups(updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error)
 	UpdateGroup(id string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error)
 	DeleteGroup(groupName string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error)
-	FindGroup(findGroup FindGroupRequest) ([]FindGroupResponse, error)
+	// FindGroup(findGroup FindGroupRequest) ([]FindGroupResponse, error)
 }

@@ -1,7 +1,7 @@
 package services
 
 import (
-	"account_gateway/internal/repository"
+	"account_services/internal/repository"
 	"log"
 	"strconv"
 	"time"
@@ -17,7 +17,7 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 	return userService{userRepository: userRepository}
 }
 
-// func (u userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountResponse, error) {
+// func (s userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountResponse, error) {
 // 	user := repository.User{
 // 		UserName: n.UserName,
 // 		//เข้ารหัสด้วย bcrypt
@@ -25,7 +25,7 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 // 		Email:        n.Email,
 // 		AcceptTerms:  n.AcceptTerms,
 // 	}
-// 	_, err := u.userRepository.Create(user)
+// 	_, err := s.userRepository.Create(user)
 // 	if err != nil {
 // 		return nil, err
 // 	}
@@ -35,7 +35,7 @@ func NewUserService(userRepository repository.UserRepository) UserService {
 // 	}, nil
 // }
 
-func (u userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountResponse, error) {
+func (s userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountResponse, error) {
 
 	userInputPassword := n.HashPassword
 	password, err := bcrypt.GenerateFromPassword([]byte(userInputPassword), bcrypt.DefaultCost)
@@ -50,7 +50,7 @@ func (u userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountRe
 		CreateAt:     strconv.Itoa(int(time.Now().Unix())),
 	}
 
-	data, err := u.userRepository.Create(user)
+	data, err := s.userRepository.Create(user)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +66,8 @@ func (u userService) NewUserAccount(n *NewUserAccountRequest) (*NewUserAccountRe
 	return userResponse, nil
 }
 
-func (u userService) GetAccounts() ([]FindAccountReponse, error) {
-	users, err := u.userRepository.GetAll()
+func (s userService) GetAccounts() ([]FindAccountReponse, error) {
+	users, err := s.userRepository.GetAll()
 	if err != nil {
 		return nil, err
 	}
@@ -84,8 +84,8 @@ func (u userService) GetAccounts() ([]FindAccountReponse, error) {
 	return userResponses, nil
 }
 
-func (u userService) GetAccountByID(id string) (*FindAccountReponse, error) {
-	user, err := u.userRepository.GetByID(id)
+func (s userService) GetAccountByID(id string) (*FindAccountReponse, error) {
+	user, err := s.userRepository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -99,13 +99,13 @@ func (u userService) GetAccountByID(id string) (*FindAccountReponse, error) {
 
 }
 
-func (u userService) UpdateAccounts(updateUser *UpdateUserRequest) (*UpdateUserResponse, error) {
+func (s userService) UpdateAccounts(updateUser *UpdateUserRequest) (*UpdateUserResponse, error) {
 	userData := repository.User{
 		UserName: updateUser.UserName,
 		Email:    updateUser.Email,
 		UpdateAt: strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataUpdate, err := u.userRepository.Update(userData)
+	dataUpdate, err := s.userRepository.Update(userData)
 	if err != nil {
 		return nil, err
 	}
@@ -118,13 +118,13 @@ func (u userService) UpdateAccounts(updateUser *UpdateUserRequest) (*UpdateUserR
 	return userUpdate, nil
 }
 
-func (u userService) UpdateAccount(updateUser *UpdateUserRequest) (*UpdateUserResponse, error) {
+func (s userService) UpdateAccount(id string, updateUser *UpdateUserRequest) (*UpdateUserResponse, error) {
 	userData := repository.User{
 		UserName: updateUser.UserName,
 		Email:    updateUser.Email,
 		UpdateAt: strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataUpdate, err := u.userRepository.UpdateOne(userData)
+	dataUpdate, err := s.userRepository.UpdateOne(id, userData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -136,12 +136,12 @@ func (u userService) UpdateAccount(updateUser *UpdateUserRequest) (*UpdateUserRe
 	return userUpdate, nil
 }
 
-func (u userService) DeleteAccount(username string, deleteUser *DeleteAccountRequest) (*DeleteAccountResponse, error) {
+func (s userService) DeleteAccount(username string, deleteUser *DeleteAccountRequest) (*DeleteAccountResponse, error) {
 	userData := repository.User{
 		UserName: deleteUser.UserName,
 		DeleteAt: strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataDelete, err := u.userRepository.DeleteOne(username, userData)
+	dataDelete, err := s.userRepository.DeleteOne(username, userData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -149,15 +149,16 @@ func (u userService) DeleteAccount(username string, deleteUser *DeleteAccountReq
 		UserName: deleteUser.UserName,
 		DeleteAt: dataDelete.DeleteAt,
 	}
+
 	return userDelete, nil
 }
 
-func (u userService) FindAccount(findAccount FindAccountRequest) (*FindAccountReponse, error) {
+func (s userService) FindAccount(findAccount *FindAccountRequest) (*FindAccountReponse, error) {
 	userData := repository.User{
 		UserName: findAccount.UserName,
 		Email:    findAccount.Email,
 	}
-	user, err := u.userRepository.FindUser(userData)
+	user, err := s.userRepository.FindUser(userData)
 	if err != nil {
 		return nil, err
 	}

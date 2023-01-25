@@ -127,26 +127,26 @@ func (r UserGroupRepositoryDB) DeleteOne(groupName string, Group Group) (*Group,
 
 }
 
-func (r UserGroupRepositoryDB) FindGroup(g Group) ([]Group, error) {
-	collection := r.db.Database("account").Collection("users")
-	groups := []Group{}
-	filter := bson.M{"$or": []interface{}{
-		bson.M{"groupname": g.GroupName}, bson.M{"groupcode": g.GroupCode}, bson.M{"groupdesc": g.GroupDesc}, bson.M{"grouptype": g.GroupType}, bson.M{"groupstatus": g.GroupStatus},
-	}}
-	doc, err := collection.Find(context.TODO(), filter)
-	if err != nil {
-		return nil, err
-	}
-	for doc.Next(context.TODO()) {
-		group := Group{}
-		err = doc.Decode(&group)
-		if err != nil {
-			log.Fatal(err)
-		}
-		groups = append(groups, group)
+// func (r UserGroupRepositoryDB) FindGroup(g Group) ([]Group, error) {
+// 	collection := r.db.Database("account").Collection("users")
+// 	groups := []Group{}
+// 	filter := bson.M{"$or": []interface{}{
+// 		bson.M{"groupname": g.GroupName}, bson.M{"groupcode": g.GroupCode}, bson.M{"groupdesc": g.GroupDesc}, bson.M{"grouptype": g.GroupType}, bson.M{"groupstatus": g.GroupStatus},
+// 	}}
+// 	doc, err := collection.Find(context.TODO(), filter)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	for doc.Next(context.TODO()) {
+// 		group := Group{}
+// 		err = doc.Decode(&group)
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		}
+// 		groups = append(groups, group)
 
-	}
-	defer r.db.Disconnect(context.Background())
+// 	}
+// 	defer r.db.Disconnect(context.Background())
 
-	return groups, nil
-}
+// 	return groups, nil
+// }

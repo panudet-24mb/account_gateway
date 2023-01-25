@@ -1,7 +1,7 @@
 package services
 
 import (
-	"account_gateway/internal/repository"
+	"account_services/internal/repository"
 	"log"
 	"strconv"
 	"time"
@@ -15,7 +15,7 @@ func NewUserGroupService(userGroupRepository repository.UserGroupRepository) Use
 	return userGroupService{userGroupRepository: userGroupRepository}
 }
 
-func (u userGroupService) NewGroup(newGroupRequest *NewGroupRequest) (*NewGroupResponse, error) {
+func (s userGroupService) NewGroup(newGroupRequest *NewGroupRequest) (*NewGroupResponse, error) {
 	userGroup := repository.Group{
 		GroupName:      newGroupRequest.GroupName,
 		GroupDesc:      newGroupRequest.GroupDesc,
@@ -25,7 +25,7 @@ func (u userGroupService) NewGroup(newGroupRequest *NewGroupRequest) (*NewGroupR
 		GroupType:      newGroupRequest.GroupType,
 		CreateAt:       strconv.Itoa(int(time.Now().Unix())),
 	}
-	data, err := u.userGroupRepository.Create(userGroup)
+	data, err := s.userGroupRepository.Create(userGroup)
 	if err != nil {
 		return nil, err
 	}
@@ -43,8 +43,8 @@ func (u userGroupService) NewGroup(newGroupRequest *NewGroupRequest) (*NewGroupR
 	return userGroupResponse, nil
 }
 
-func (u userGroupService) GetGroups() ([]NewGroupResponse, error) {
-	userGroups, err := u.userGroupRepository.GetAll()
+func (s userGroupService) GetGroups() ([]NewGroupResponse, error) {
+	userGroups, err := s.userGroupRepository.GetAll()
 	if err != nil {
 		return nil, err
 	}
@@ -65,8 +65,8 @@ func (u userGroupService) GetGroups() ([]NewGroupResponse, error) {
 	return userGroupResponses, nil
 }
 
-func (u userGroupService) GetGroupByID(id string) (*NewGroupResponse, error) {
-	userGroup, err := u.userGroupRepository.GetByID(id)
+func (s userGroupService) GetGroupByID(id string) (*NewGroupResponse, error) {
+	userGroup, err := s.userGroupRepository.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
@@ -83,7 +83,7 @@ func (u userGroupService) GetGroupByID(id string) (*NewGroupResponse, error) {
 	return &userGroupResponse, nil
 }
 
-func (u userGroupService) UpdateGroups(updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
+func (s userGroupService) UpdateGroups(updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
 	groupData := repository.Group{
 		GroupName:      updateGroup.GroupName,
 		GroupDesc:      updateGroup.GroupDesc,
@@ -94,7 +94,7 @@ func (u userGroupService) UpdateGroups(updateGroup *UpdateGroupRequest) (*Update
 		GroupStatus:    updateGroup.GroupStatus,
 		UpdateAt:       strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataUpdate, err := u.userGroupRepository.Update(groupData)
+	dataUpdate, err := s.userGroupRepository.Update(groupData)
 	if err != nil {
 		return nil, err
 	}
@@ -111,7 +111,7 @@ func (u userGroupService) UpdateGroups(updateGroup *UpdateGroupRequest) (*Update
 	return groupUpdate, nil
 }
 
-func (u userGroupService) UpdateGroup(id string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
+func (s userGroupService) UpdateGroup(id string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
 	groupData := repository.Group{
 		GroupName:      updateGroup.GroupName,
 		GroupDesc:      updateGroup.GroupDesc,
@@ -122,7 +122,7 @@ func (u userGroupService) UpdateGroup(id string, updateGroup *UpdateGroupRequest
 		GroupStatus:    updateGroup.GroupStatus,
 		UpdateAt:       strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataUpdate, err := u.userGroupRepository.UpdateOne(id, groupData)
+	dataUpdate, err := s.userGroupRepository.UpdateOne(id, groupData)
 	if err != nil {
 		return nil, err
 	}
@@ -139,12 +139,12 @@ func (u userGroupService) UpdateGroup(id string, updateGroup *UpdateGroupRequest
 	return groupUpdate, nil
 }
 
-func (u userGroupService) DeleteGroup(groupName string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
+func (s userGroupService) DeleteGroup(groupName string, updateGroup *UpdateGroupRequest) (*UpdateGroupResponse, error) {
 	groupData := repository.Group{
 		GroupName: updateGroup.GroupName,
 		DeleteAt:  strconv.Itoa(int(time.Now().Unix())),
 	}
-	dataDelete, err := u.userGroupRepository.DeleteOne(groupName, groupData)
+	dataDelete, err := s.userGroupRepository.DeleteOne(groupName, groupData)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -155,35 +155,35 @@ func (u userGroupService) DeleteGroup(groupName string, updateGroup *UpdateGroup
 	return groupDelete, nil
 }
 
-func (u userGroupService) FindGroup(findGroup FindGroupRequest) ([]FindGroupResponse, error) {
-	groupData := repository.Group{
-		GroupName:   findGroup.GroupName,
-		GroupCode:   findGroup.GroupCode,
-		GroupDesc:   findGroup.GroupDesc,
-		GroupType:   findGroup.GroupType,
-		GroupStatus: findGroup.GroupStatus,
-		CreateAt:    findGroup.CreateAt,
-		UpdateAt:    findGroup.UpdateAt,
-	}
-	groups, err := u.userGroupRepository.FindGroup(groupData)
-	if err != nil {
-		return nil, err
-	}
-	groupResponses := []FindGroupResponse{}
-	for _, group := range groups {
-		groupResponse := FindGroupResponse{
-			GroupName:      group.GroupName,
-			GroupCode:      group.GroupCode,
-			GroupDesc:      group.GroupDesc,
-			GroupImgUrl:    group.GroupImgUrl,
-			GroupIcon:      group.GroupIcon,
-			GroupIconColor: group.GroupIconColor,
-			GroupType:      group.GroupType,
-			GroupStatus:    group.GroupStatus,
-			CreateAt:       group.CreateAt,
-			UpdateAt:       group.UpdateAt,
-		}
-		groupResponses = append(groupResponses, groupResponse)
-	}
-	return groupResponses, nil
-}
+// func (u userGroupService) FindGroup(findGroup FindGroupRequest) ([]FindGroupResponse, error) {
+// 	groupData := repository.Group{
+// 		GroupName:   findGroup.GroupName,
+// 		GroupCode:   findGroup.GroupCode,
+// 		GroupDesc:   findGroup.GroupDesc,
+// 		GroupType:   findGroup.GroupType,
+// 		GroupStatus: findGroup.GroupStatus,
+// 		CreateAt:    findGroup.CreateAt,
+// 		UpdateAt:    findGroup.UpdateAt,
+// 	}
+// 	groups, err := u.userGroupRepository.FindGroup(groupData)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	groupResponses := []FindGroupResponse{}
+// 	for _, group := range groups {
+// 		groupResponse := FindGroupResponse{
+// 			GroupName:      group.GroupName,
+// 			GroupCode:      group.GroupCode,
+// 			GroupDesc:      group.GroupDesc,
+// 			GroupImgUrl:    group.GroupImgUrl,
+// 			GroupIcon:      group.GroupIcon,
+// 			GroupIconColor: group.GroupIconColor,
+// 			GroupType:      group.GroupType,
+// 			GroupStatus:    group.GroupStatus,
+// 			CreateAt:       group.CreateAt,
+// 			UpdateAt:       group.UpdateAt,
+// 		}
+// 		groupResponses = append(groupResponses, groupResponse)
+// 	}
+// 	return groupResponses, nil
+// }

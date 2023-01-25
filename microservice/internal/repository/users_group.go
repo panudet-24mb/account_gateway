@@ -22,5 +22,5 @@ type UserGroupRepository interface {
 	Update(Group Group) (*Group, error)
 	UpdateOne(id string, Group Group) (*Group, error)
 	DeleteOne(groupName string, Group Group) (*Group, error)
-	FindGroup(g Group) ([]Group, error)
+	// FindGroup(g Group) ([]Group, error)
 }

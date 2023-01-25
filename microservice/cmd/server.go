@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"account_gateway/internal/config"
-	"account_gateway/internal/handler"
-	"account_gateway/internal/repository"
-	"account_gateway/internal/services"
+	"account_services/internal/config"
+	"account_services/internal/handler"
+	"account_services/internal/repository"
+	"account_services/internal/services"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -24,8 +24,13 @@ func Execute() {
 	userGroupService := services.NewUserGroupService(userGroupRepository)
 	userGroupHandler := handler.NewUserGroupHandler(userGroupService)
 
-	authService := services.NewAuthService(userRepository)
-	authHandler := handler.NewAuthHandler(authService)
+	roleRepository := repository.NewRoleRepositoryDB(db)
+	roleService := services.NewRoleService(roleRepository)
+	roleHandler := handler.NewRoleHandler(roleService)
+
+	userRoleRepository := repository.NewUserRoleRepositoryDB(db)
+	userRoleService := services.NewUserRoleService(userRoleRepository)
+	userRoleHandler := handler.NewUserRoleHandler(userRoleService)
 
 	app := fiber.New(fiber.Config{
 		Prefork:       true,
@@ -39,10 +44,8 @@ func Execute() {
 
 	api := app.Group("/api")
 	user := api.Group("/user")
-	auth := api.Group("/auth")
 	usergroup := api.Group("/user-group")
-
-	auth.Post("/login", authHandler.DefaultLogin)
+	userrole := api.Group("/user-role")
 
 	user.Post("/create-new-account", userHandler.CreateNewUserAccount)
 	user.Get("/get-account", userHandler.GetAccounts)
@@ -58,7 +61,21 @@ func Execute() {
 	usergroup.Put("/update-user-group", userGroupHandler.UpdateGroups)
 	usergroup.Put("/update-user-group/:_id", userGroupHandler.UpdateGroup)
 	usergroup.Put("/delete-user-group", userGroupHandler.DeleteGroup)
-	usergroup.Get("/find-user-group", userGroupHandler.FindGroup)
+	// usergroup.Get("/find-user-group", userGroupHandler.FindGroup)
+
+	userrole.Post("/create-new-role", roleHandler.CreateNewRole)
+	userrole.Get("/get-role", roleHandler.GetRoles)
+	userrole.Get("/get-role/:_id", roleHandler.GetRoleByID)
+	userrole.Put("/update-role", roleHandler.UpdateRoles)
+	userrole.Put("/update-role/:_id", roleHandler.UpdateRole)
+	userrole.Put("/delete-role", roleHandler.DeleteRole)
+
+	userrole.Post("/create-new-user-role", userRoleHandler.CreateNewUserRole)
+	userrole.Get("/get-user-role", userRoleHandler.GetUserRole)
+	userrole.Get("/get-user-role/:_id", userRoleHandler.GetUserRoleByID)
+	userrole.Put("/update-user-role", userRoleHandler.UpdateUsersRole)
+	userrole.Put("/update-user-role/:_id", userRoleHandler.UpdateUserRole)
+	userrole.Put("/delete-user-role/:_id", userRoleHandler.DeleteUserRole)
 
 	port := viper.GetString("app.port")
 	app.Listen(":" + port)

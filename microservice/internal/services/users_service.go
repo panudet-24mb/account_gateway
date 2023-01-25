@@ -62,7 +62,7 @@ type UserService interface {
 	GetAccounts() ([]FindAccountReponse, error)
 	GetAccountByID(id string) (*FindAccountReponse, error)
 	UpdateAccounts(updateUser *UpdateUserRequest) (*UpdateUserResponse, error)
-	UpdateAccount(updateUser *UpdateUserRequest) (*UpdateUserResponse, error)
+	UpdateAccount(id string, updateUser *UpdateUserRequest) (*UpdateUserResponse, error)
 	DeleteAccount(username string, deleteUser *DeleteAccountRequest) (*DeleteAccountResponse, error)
-	FindAccount(findAccount FindAccountRequest) (*FindAccountReponse, error)
+	FindAccount(findAccount *FindAccountRequest) (*FindAccountReponse, error)
 }

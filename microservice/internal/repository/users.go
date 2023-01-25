@@ -20,7 +20,7 @@ type UserRepository interface {
 	GetByID(string) (*User, error)
 	Create(User) (*User, error)
 	Update(User) (*User, error)
-	UpdateOne(User) (*User, error)
+	UpdateOne(string, User) (*User, error)
 	DeleteOne(string, User) (*User, error)
 	FindUser(User) (*User, error)
 }

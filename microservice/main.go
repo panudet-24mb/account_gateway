@@ -1,11 +1,11 @@
 package main
 
 import (
-	"account_gateway/cmd"
+	"account_services/cmd"
 	"fmt"
 )
 
 func main() {
-	fmt.Println("[Execute]-[account_gateway]-Start")
+	fmt.Println("[Execute]-[account_services]-Start")
 	cmd.Execute()
 }

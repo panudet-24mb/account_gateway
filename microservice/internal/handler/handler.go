@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"account_gateway/internal/errs"
+	"account_services/internal/errs"
 
 	"github.com/gofiber/fiber/v2"
 )

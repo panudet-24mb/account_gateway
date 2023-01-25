@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"account_gateway/internal/services"
+	"account_services/internal/services"
 	"net/http"
 
 	"github.com/gofiber/fiber/v2"
@@ -15,14 +15,14 @@ func NewUserHandler(userService services.UserService) userHandler {
 	return userHandler{userService: userService}
 }
 
-func (u userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
+func (h userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	body := new(services.NewUserAccountRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
 
-	result, err := u.userService.NewUserAccount(body)
+	result, err := h.userService.NewUserAccount(body)
 	if err != nil {
 		return handleError(c, err)
 	}
@@ -32,8 +32,8 @@ func (u userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
 
 }
 
-func (u userHandler) GetAccounts(c *fiber.Ctx) error {
-	result, err := u.userService.GetAccounts()
+func (h userHandler) GetAccounts(c *fiber.Ctx) error {
+	result, err := h.userService.GetAccounts()
 	if err != nil {
 		return err
 	}
@@ -42,9 +42,9 @@ func (u userHandler) GetAccounts(c *fiber.Ctx) error {
 	})
 }
 
-func (u userHandler) GetAccountByID(c *fiber.Ctx) error {
+func (h userHandler) GetAccountByID(c *fiber.Ctx) error {
 	id := c.Params("_id")
-	result, err := u.userService.GetAccountByID(id)
+	result, err := h.userService.GetAccountByID(id)
 	if err != nil {
 		return err
 	}
@@ -53,13 +53,13 @@ func (u userHandler) GetAccountByID(c *fiber.Ctx) error {
 	})
 }
 
-func (u userHandler) UpdateAccounts(c *fiber.Ctx) error {
+func (h userHandler) UpdateAccounts(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	body := new(services.UpdateUserRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
-	result, err := u.userService.UpdateAccounts(body)
+	result, err := h.userService.UpdateAccounts(body)
 	if err != nil {
 		return handleError(c, err)
 	}
@@ -69,33 +69,33 @@ func (u userHandler) UpdateAccounts(c *fiber.Ctx) error {
 	})
 }
 
-func (u userHandler) UpdateAccount(c *fiber.Ctx) error {
+func (h userHandler) UpdateAccount(c *fiber.Ctx) error {
 	c.Accepts("application/json")
-	username := c.Params("username")
+	id := c.Params("_id")
 	body := new(services.UpdateUserRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
-	_, err := u.userService.UpdateAccount(body)
+	result, err := h.userService.UpdateAccount(id, body)
 	if err != nil {
 		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
 		"status": "Updated Success",
-		"data":   username,
+		"data":   result,
 	})
 }
 
-func (u userHandler) DeleteAccount(c *fiber.Ctx) error {
+func (h userHandler) DeleteAccount(c *fiber.Ctx) error {
 	c.Accepts("application/json")
 	userName := c.Params("username")
 	body := new(services.DeleteAccountRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
-	result, err := u.userService.DeleteAccount(userName, body)
+	result, err := h.userService.DeleteAccount(userName, body)
 	if err != nil {
-		return err
+		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
 		"status": "Deleted Success",
@@ -103,14 +103,14 @@ func (u userHandler) DeleteAccount(c *fiber.Ctx) error {
 	})
 }
 
-func (u userHandler) FindAccount(c *fiber.Ctx) error {
+func (h userHandler) FindAccount(c *fiber.Ctx) error {
 	body := new(services.FindAccountRequest)
 	if err := c.BodyParser(body); err != nil {
 		return fiber.ErrBadRequest
 	}
-	result, err := u.userService.FindAccount(*body)
+	result, err := h.userService.FindAccount(body)
 	if err != nil {
-		return err
+		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
 		"data": result,
