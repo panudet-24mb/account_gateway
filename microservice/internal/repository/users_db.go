@@ -105,7 +105,7 @@ func (r UserRepositoryDB) UpdateOne(id string, u User) (*User, error) {
 		return nil, err
 	}
 	filter := bson.M{"_id": objID}
-	update := bson.M{"$set": bson.M{"username": u.UserName, "email": u.Email}}
+	update := bson.M{"$set": bson.M{"username": u.UserName, "email": u.Email, "updateat": u.UpdateAt}}
 	// update := bson.D{{Key: "email", Value: u.Email}, {Key: "updateat", Value: u.UpdateAt}}
 	_, err = collection.UpdateOne(context.TODO(), filter, update)
 	if err != nil {

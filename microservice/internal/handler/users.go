@@ -35,7 +35,7 @@ func (h userHandler) CreateNewUserAccount(c *fiber.Ctx) error {
 func (h userHandler) GetAccounts(c *fiber.Ctx) error {
 	result, err := h.userService.GetAccounts()
 	if err != nil {
-		return err
+		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
 		"data": result,
@@ -46,7 +46,7 @@ func (h userHandler) GetAccountByID(c *fiber.Ctx) error {
 	id := c.Params("_id")
 	result, err := h.userService.GetAccountByID(id)
 	if err != nil {
-		return err
+		return handleError(c, err)
 	}
 	return c.Status(http.StatusOK).JSON(&fiber.Map{
 		"data": result,

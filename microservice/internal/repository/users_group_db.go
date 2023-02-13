@@ -59,7 +59,6 @@ func (r UserGroupRepositoryDB) GetAll() ([]Group, error) {
 		}
 		groups = append(groups, group)
 	}
-
 	defer r.db.Disconnect(context.Background())
 
 	return groups, nil
